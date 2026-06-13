@@ -492,6 +492,7 @@ with t_main:
                       color_continuous_scale=["#fc5c7d","#ffd32a","#48cfad"], title="Average Grade by Course",
                       labels={"avg_score":"Avg Score","course_name":"Course"})
         fig2.update_layout(**DARK, coloraxis_showscale=False, xaxis_range=[0,100])
+        fig2.update_yaxes(tickfont_color="black", title_font_color="black")
         st.plotly_chart(fig2, use_container_width=True)
     
     with right:
