@@ -837,10 +837,9 @@ with t_questions:
         fig.add_trace(go.Bar(x=merged9["week"], y=merged9["events"], name="Engagement Events",
                              marker_color="#6c63ff", opacity=0.5), secondary_y=True)
         fig.update_layout(**DARK, title="Weekly Attendance & Engagement Over 6 Months")
-        fig.update_yaxes(title_text="Attendance %", secondary_y=False)
-        fig.update_yaxes(title_text="Events", secondary_y=True)
-        fig2.update_xaxes(tickfont_color="black", title_font_color="black")
-        fig2.update_yaxes(tickfont_color="black", title_font_color="black")
+        fig.update_yaxes(title_text="Attendance %", secondary_y=False, tickfont_color="black", title_font_color="black")
+        fig.update_yaxes(title_text="Events", secondary_y=True, tickfont_color="black", title_font_color="black")
+        fig2.update_yaxes()
         st.plotly_chart(fig, use_container_width=True)
 
         att9["month"] = att9["session_datetime"].dt.month_name()
@@ -884,6 +883,8 @@ with t_questions:
                          labels={"age_band":"Age Band","avg_grade":"Avg Grade"})
             fig.update_traces(texttemplate="%{text}", textposition="outside")
             fig.update_layout(**DARK, coloraxis_showscale=False, yaxis_range=[0,100])
+            fig.update_xaxes(tickfont_color="black", title_font_color="black")
+            fig.update_yaxes(tickfont_color="black", title_font_color="black")
             st.plotly_chart(fig, use_container_width=True)
 
         with col2:
@@ -892,6 +893,8 @@ with t_questions:
                           labels={"age_band":"Age Band","att_rate":"Attendance %"})
             fig2.update_traces(texttemplate="%{text}", textposition="outside")
             fig2.update_layout(**DARK, coloraxis_showscale=False, yaxis_range=[0,100])
+            fig2.update_xaxes(tickfont_color="black", title_font_color="black")
+            fig2.update_yaxes(tickfont_color="black", title_font_color="black")
             st.plotly_chart(fig2, use_container_width=True)
 
     # Q11
