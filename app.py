@@ -293,7 +293,7 @@ def _parse_datetimes(df: pd.DataFrame, cols: list) -> pd.DataFrame:
 def load_from_csv():
     """Read all 8 source files from disk (original behaviour)."""
     _courses     = pd.read_csv("data/courses_clean.csv")
-    _groups      = pd.read_csv("data/groups_cleaned.csv")
+    _groups      = pd.read_csv("data/groups_clean.csv")
     _students    = pd.read_csv("data/students_clean.csv")
     _grades      = pd.read_csv("data/grades_clean.csv")
     _attendance  = pd.read_excel("data/attendance_clean.xlsx")
