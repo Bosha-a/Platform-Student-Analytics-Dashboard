@@ -838,8 +838,8 @@ with t_questions:
                              marker_color="#6c63ff", opacity=0.5), secondary_y=True)
         fig.update_layout(**DARK, title="Weekly Attendance & Engagement Over 6 Months")
         fig.update_yaxes(title_text="Attendance %", secondary_y=False, tickfont_color="black", title_font_color="black")
-        fig.update_yaxes(title_text="Events", secondary_y=True, tickfont_color="black", title_font_color="black")
-        fig2.update_yaxes()
+        fig.update_xaxes(title_text="Events", secondary_y=True, tickfont_color="black", title_font_color="black")
+        # fig2.update_yaxes()
         st.plotly_chart(fig, use_container_width=True)
 
         att9["month"] = att9["session_datetime"].dt.month_name()
