@@ -509,7 +509,7 @@ with t_main:
 
     with st.container():
         city_c = students["city"].value_counts().reset_index(); city_c.columns=["City","Count"]
-        fig2 = px.bar(city_c.head(12), x="Count", y="City", orientation="h", color="Count", color_continuous_scale=SEQ, title="Top Student Cities")
+        fig2 = px.bar(city_c.head(12), x="Count", y="City", orientation="h", color="Count", color_discrete_sequence=["#4CAF50"], title="Top Student Cities")
         fig2.update_layout(**DARK, coloraxis_showscale=False)
         fig2.update_xaxes(title="Age", title_font_color="black", tickfont_color="black")
         fig2.update_yaxes(title="Count", title_font_color="black", tickfont_color="black")
@@ -519,7 +519,7 @@ with t_main:
         by_course = students.groupby(["course_name","group_name"]).size().reset_index(name="students")
         fig3 = px.bar(by_course, x="students", y="group_name", color="course_name", orientation="h",
                       color_discrete_sequence=COLORS, title="Students by Group and Course")
-        fig3.update_layout(**DARK)
+        fig3.update_layout(**DARK, legend=dict(font=dict(color="black")))
         fig3.update_xaxes(title="Age", title_font_color="black", tickfont_color="black")
         fig3.update_yaxes(title="Count", title_font_color="black", tickfont_color="black")
         st.plotly_chart(fig3, use_container_width=True)
