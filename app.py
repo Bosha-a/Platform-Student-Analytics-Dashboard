@@ -585,7 +585,7 @@ with t_questions:
             st.plotly_chart(fig2, use_container_width=True)
         fig3 = px.histogram(grades, x="score", color="type", nbins=40, barmode="overlay", opacity=0.7,
                             color_discrete_map=clr_map, labels={"score":"Score","type":"Type"}, title="Score Histogram — All Types Overlaid")
-        fig3.update_layout(**DARK)
+        fig3.update_layout(**DARK , legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
         fig3.update_yaxes(tickfont_color="black", title_font_color="black")
         fig3.update_xaxes(tickfont_color="black", title_font_color="black")
         st.plotly_chart(fig3, use_container_width=True)
@@ -704,7 +704,7 @@ with t_questions:
         eng_counts = engagement.groupby("event_type").size().reset_index(name="count")
         fig3 = px.pie(eng_counts, values="count", names="event_type", color_discrete_sequence=COLORS, hole=0.45,
                       title="Platform Event Type Breakdown")
-        fig3.update_layout(**DARK)
+        fig3.update_layout(**DARK , legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
         fig3.update_yaxes(tickfont_color="black", title_font_color="black")
         fig3.update_xaxes(tickfont_color="black", title_font_color="black")
         st.plotly_chart(fig3, use_container_width=True)
@@ -728,7 +728,7 @@ with t_questions:
                      labels={"fail_rate":"Failure (%)","concept_name":"Concept","course_name":"Course"},
                      title="Top 15 Concepts by Failure Rate")
         fig.update_traces(textposition="outside")
-        fig.update_layout(**DARK, xaxis_range=[0,110])
+        fig.update_layout(**DARK, xaxis_range=[0,110] , legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
         fig.update_yaxes(tickfont_color="black", title_font_color="black")
         fig.update_xaxes(tickfont_color="black", title_font_color="black")
         st.plotly_chart(fig, use_container_width=True)
@@ -738,7 +738,7 @@ with t_questions:
         pivot6 = heat6.pivot_table(index="course_name", columns="concept_name", values="fail_rate", fill_value=0)
         fig2 = px.imshow(pivot6, color_continuous_scale="Reds", aspect="auto",
                          title="Failure Rate Heatmap — Course × Concept", labels={"color":"Fail %"})
-        fig2.update_layout(**DARK, xaxis_tickangle=-40)
+        fig2.update_layout(**DARK, xaxis_tickangle=-40, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
         fig2.update_yaxes(tickfont_color="black", title_font_color="black")
         fig2.update_xaxes(tickfont_color="black", title_font_color="black")
         st.plotly_chart(fig2, use_container_width=True)
@@ -764,7 +764,7 @@ with t_questions:
                                  text=trend7["pass_rate"].round(1).astype(str)+"%", textposition="top center",
                                  name="Pass Rate %", line=dict(color="#48cfad",width=3), marker=dict(size=9)), secondary_y=False)
         fig.add_trace(go.Bar(x=trend7["month"], y=trend7["attempts"], name="Attempts", marker_color="#6c63ff", opacity=0.4), secondary_y=True)
-        fig.update_layout(**DARK, title=f"'{worst7}' — Cohort Pass Rate Over Time")
+        fig.update_layout(**DARK, title=f"'{worst7}' — Cohort Pass Rate Over Time", legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
         fig.update_yaxes(title_text="Pass Rate %", secondary_y=False)
         fig.update_xaxes(tickfont_color="black", title_font_color="black")
         fig.update_yaxes(title_text="Attempts", secondary_y=True)
@@ -803,7 +803,7 @@ with t_questions:
                               color_discrete_map={True:"#fc5c7d",False:"#48cfad"}, trendline="ols", opacity=0.5,
                               labels={"buffer_hours":"Buffer (hrs)","score":"Score","is_late":"Late"},
                               title="Submission Buffer vs Score")
-            fig2.update_layout(**DARK)
+            fig2.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
             fig2.update_xaxes(tickfont_color="black", title_font_color="black")
             fig2.update_yaxes(tickfont_color="black", title_font_color="black")
             st.plotly_chart(fig2, use_container_width=True)
@@ -836,7 +836,7 @@ with t_questions:
                                  line=dict(color="#48cfad",width=2.5), mode="lines"), secondary_y=False)
         fig.add_trace(go.Bar(x=merged9["week"], y=merged9["events"], name="Engagement Events",
                              marker_color="#6c63ff", opacity=0.5), secondary_y=True)
-        fig.update_layout(**DARK, title="Weekly Attendance & Engagement Over 6 Months")
+        fig.update_layout(**DARK, title="Weekly Attendance & Engagement Over 6 Months", legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
         fig.update_yaxes(title_text="Attendance %", secondary_y=False, tickfont_color="black", title_font_color="black")
         fig.update_yaxes(title_text="Events", secondary_y=True, tickfont_color="black", title_font_color="black")
         fig.update_xaxes(tickfont_color="black",title_font_color="black")
@@ -850,7 +850,7 @@ with t_questions:
         pivot9 = pivot9.reindex(columns=[d for d in day_order if d in pivot9.columns])
         fig2 = px.imshow(pivot9, color_continuous_scale="RdYlGn", aspect="auto",
                          title="Attendance Heatmap — Month × Day of Week", labels={"color":"Att %"})
-        fig2.update_layout(**DARK)
+        fig2.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
         fig2.update_xaxes(tickfont_color="black", title_font_color="black")
         fig2.update_yaxes(tickfont_color="black", title_font_color="black")
         st.plotly_chart(fig2, use_container_width=True)
@@ -926,7 +926,7 @@ with t_questions:
                           color_discrete_sequence=["#48cfad","#fc5c7d","#ffd32a","#6c63ff"],
                           labels={"att_rate":"Attendance %","avg_grade":"Avg Grade","segment":"Segment"},
                           title="Segments — Attendance vs Grade (size=logins)")
-        fig2.update_layout(**DARK)
+        fig2.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
         fig2.update_xaxes(tickfont_color="black", title_font_color="black")
         fig2.update_yaxes(tickfont_color="black", title_font_color="black")
         st.plotly_chart(fig2, use_container_width=True)
@@ -970,7 +970,7 @@ with t_questions:
         fig = go.Figure()
         fig.add_trace(go.Bar(name="Stated", x=comp12["group_name"], y=comp12["stated_num_students"], marker_color="#6c63ff", opacity=0.7))
         fig.add_trace(go.Bar(name="True (students.csv)", x=comp12["group_name"], y=comp12["true_count"], marker_color="#48cfad"))
-        fig.update_layout(**DARK, barmode="group", title="Stated vs True Group Sizes", yaxis_title="Students", xaxis_tickangle=-15)
+        fig.update_layout(**DARK, barmode="group", title="Stated vs True Group Sizes", yaxis_title="Students", xaxis_tickangle=-15, legend_title_font=dict(color="black", size=14), legend=dict(font=dict(color="black")))
         fig.update_xaxes(tickfont_color="black", title_font_color="black")
         fig.update_yaxes(tickfont_color="black", title_font_color="black")
         st.plotly_chart(fig, use_container_width=True)
@@ -1061,7 +1061,7 @@ with t_questions:
                          color="risk_score", color_continuous_scale=["#ffd32a","#fc5c7d"], text=top10.sort_values("risk_score")["risk_score"].round(1),
                          title="Top 10 At-Risk Students", labels={"risk_score":"Risk Score","full_name":"Student"})
             fig.update_traces(textposition="outside")
-            fig.update_layout(**DARK, coloraxis_showscale=False, xaxis_range=[0,120])
+            fig.update_layout(**DARK, coloraxis_showscale=False, xaxis_range=[0,120], legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
             fig.update_xaxes(tickfont_color="black", title_font_color="black")
             fig.update_yaxes(tickfont_color="black", title_font_color="black")
             st.plotly_chart(fig, use_container_width=True)
@@ -1084,7 +1084,7 @@ with t_questions:
         fig = px.line(trend15, x="seq", y="score", color="group_name", color_discrete_sequence=COLORS, markers=True,
                       labels={"seq":"Assessment #","score":"Avg Score","group_name":"Group"},
                       title="Group Average Grade Across Successive Assessments")
-        fig.update_layout(**DARK)
+        fig.update_layout(**DARK,  legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
         fig.update_xaxes(tickfont_color="black", title_font_color="black")
         fig.update_yaxes(tickfont_color="black", title_font_color="black")
         st.plotly_chart(fig, use_container_width=True)
@@ -1103,7 +1103,7 @@ with t_questions:
                           title="Grade Trajectory per Group (pts/assessment)", labels={"slope":"Slope","group_name":"Group"})
             fig2.add_vline(x=0, line_dash="dash", line_color="#ffd32a")
             fig2.update_traces(textposition="outside")
-            fig2.update_layout(**DARK, coloraxis_showscale=False)
+            fig2.update_layout(**DARK, coloraxis_showscale=False, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
             fig2.update_xaxes(tickfont_color="black", title_font_color="black")
             fig2.update_yaxes(tickfont_color="black", title_font_color="black")
             st.plotly_chart(fig2, use_container_width=True)
@@ -1113,7 +1113,7 @@ with t_questions:
             fig3 = go.Figure()
             fig3.add_trace(go.Bar(x=fl["group_name"], y=fl["First"], name="First Assessment", marker_color="#6c63ff"))
             fig3.add_trace(go.Bar(x=fl["group_name"], y=fl["Last"], name="Last Assessment", marker_color="#48cfad"))
-            fig3.update_layout(**DARK, barmode="group", title="First vs Last Assessment Score", xaxis_tickangle=-20)
+            fig3.update_layout(**DARK, barmode="group", title="First vs Last Assessment Score", xaxis_tickangle=-20,  legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
             fig3.update_xaxes(tickfont_color="black", title_font_color="black")
             fig3.update_yaxes(tickfont_color="black", title_font_color="black")
             st.plotly_chart(fig3, use_container_width=True)
@@ -1140,7 +1140,7 @@ with t_files:
         col1,col2 = st.columns(2)
         with col1:
             fig = px.histogram(students, x="age", nbins=20, color_discrete_sequence=["#6c63ff"], title="Age Distribution")
-            fig.update_layout(**DARK)
+            fig.update_layout(**DARK , legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
             fig.update_xaxes(tickfont_color="black", title_font_color="black")
             fig.update_yaxes(tickfont_color="black", title_font_color="black")
             st.plotly_chart(fig, use_container_width=True)
@@ -1213,7 +1213,7 @@ with t_files:
         mg = gf.groupby(["month","course_name"])["score"].mean().reset_index()
         fig2 = px.line(mg, x="month", y="score", color="course_name", color_discrete_sequence=COLORS, markers=True,
                        title="Avg Score Over Time by Course")
-        fig2.update_layout(**DARK)
+        fig2.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
         fig2.update_xaxes(tickfont_color="black", title_font_color="black")
         fig2.update_yaxes(tickfont_color="black", title_font_color="black")
         st.plotly_chart(fig2, use_container_width=True)
@@ -1262,7 +1262,7 @@ with t_files:
         with col2:
             fig2 = px.pie(attendance, names="status", hole=0.45,
                           color_discrete_map={"attended":"#48cfad","absent":"#fc5c7d"}, title="Attended vs Absent")
-            fig2.update_layout(**DARK)
+            fig2.update_layout(**DARK , legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
             st.plotly_chart(fig2, use_container_width=True)
 
         with st.container():
