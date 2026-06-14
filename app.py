@@ -1162,13 +1162,13 @@ with t_files:
         with col1:
             cat_c = courses["category"].value_counts().reset_index(); cat_c.columns=["Category","Count"]
             fig = px.pie(cat_c, values="Count", names="Category", color_discrete_sequence=COLORS, hole=0.4, title="Courses by Category")
-            fig.update_layout(**DARK)
+            fig.update_layout(**DARK,legend=dict(font=dict(color="black")))
             st.plotly_chart(fig, use_container_width=True)
         with col2:
             fig2 = px.bar(courses, x="course_name", y="duration_weeks", color="difficulty_level",
                           color_discrete_map={"Beginner":"#48cfad","Intermediate":"#ffd32a","Advanced":"#fc5c7d"},
                           title="Duration by Difficulty", labels={"course_name":"Course","duration_weeks":"Weeks"})
-            fig2.update_layout(**DARK, xaxis_tickangle=-20)
+            fig2.update_layout(**DARK, xaxis_tickangle=-20, legend=dict(font=dict(color="black")))
             fig2.update_xaxes(tickfont_color="black", title_font_color="black")
             fig2.update_yaxes(tickfont_color="black", title_font_color="black")
             st.plotly_chart(fig2, use_container_width=True)
@@ -1176,7 +1176,7 @@ with t_files:
         fig3 = px.bar(tsz.sort_values("students"), x="students", y="group_id", orientation="h",
                       color="course_name", color_discrete_sequence=COLORS, title="True Enrollment per Group",
                       labels={"students":"Students","group_id":"Group"})
-        fig3.update_layout(**DARK)
+        fig3.update_layout(**DARK, legend=dict(font=dict(color="black")))
         fig3.update_xaxes(tickfont_color="black", title_font_color="black")
         fig3.update_yaxes(tickfont_color="black", title_font_color="black")
         st.plotly_chart(fig3, use_container_width=True)
