@@ -1187,11 +1187,12 @@ with t_files:
         with c1: blue_metric("Total", f"{len(grades):,}", sub="Grade records", icon="📝")
         with c2: blue_metric("Avg Score", f"{grades['score'].mean():.1f}", sub="Out of 100", icon="📈")
         with c3: blue_metric("Pass Rate ≥60", f"{(grades['score']>=60).mean()*100:.1f}%", sub="Passing assessments", icon="✅")
+        col1,col2 = st.columns(2)
         with col1:
             fig = px.histogram(grades, x="score", color="type", nbins=40, barmode="overlay", opacity=0.75,
                                color_discrete_map={"quiz":"#6c63ff","assignment":"#48cfad","practical":"#ffd32a","exam":"#fc5c7d"},
                                title="Grade Distribution by Type")
-            fig.update_layout(**DARK)
+            fig.update_layout(**DARK, legend=dict(font=dict(color="black")))
             fig.update_xaxes(tickfont_color="black", title_font_color="black")
             fig.update_yaxes(tickfont_color="black", title_font_color="black")
             st.plotly_chart(fig, use_container_width=True)
