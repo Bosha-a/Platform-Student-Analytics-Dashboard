@@ -1288,21 +1288,21 @@ with t_files:
         with col1:
             ec = engagement.groupby("event_type").size().reset_index(name="count")
             fig = px.pie(ec, values="count", names="event_type", color_discrete_sequence=COLORS, hole=0.45, title="Events by Type")
-            fig.update_layout(**DARK)
+            fig.update_layout(**DARK, legend=dict(font=dict(color="black")))
             fig.update_xaxes(tickfont_color="black", title_font_color="black")
             fig.update_yaxes(tickfont_color="black", title_font_color="black")
             st.plotly_chart(fig, use_container_width=True)
         with col2:
             dt = engagement.groupby(["device","event_type"]).size().reset_index(name="count")
             fig2 = px.bar(dt, x="device", y="count", color="event_type", color_discrete_sequence=COLORS, barmode="stack", title="Events by Device")
-            fig2.update_layout(**DARK)
+            fig2.update_layout(**DARK, legend=dict(font=dict(color="black")))
             fig2.update_xaxes(tickfont_color="black", title_font_color="black")
             fig2.update_yaxes(tickfont_color="black", title_font_color="black")
             st.plotly_chart(fig2, use_container_width=True)
         em2 = engagement.copy(); em2["month"] = em2["event_datetime"].dt.to_period("M").astype(str)
         em3 = em2.groupby(["month","event_type"]).size().reset_index(name="count")
         fig3 = px.line(em3, x="month", y="count", color="event_type", color_discrete_sequence=COLORS, markers=True, title="Monthly Engagement by Type")
-        fig3.update_layout(**DARK)
+        fig3.update_layout(**DARK, legend=dict(font=dict(color="black")))
         fig3.update_xaxes(tickfont_color="black", title_font_color="black")
         fig3.update_yaxes(tickfont_color="black", title_font_color="black")
         st.plotly_chart(fig3, use_container_width=True)
@@ -1318,7 +1318,7 @@ with t_files:
         with col1:
             fig = px.pie(submissions, names="is_late", hole=0.45,
                          color_discrete_map={True:"#fc5c7d",False:"#48cfad"}, title="Late vs On-Time")
-            fig.update_layout(**DARK)
+            fig.update_layout(**DARK, legend=dict(font=dict(color="black")))
             fig.update_xaxes(tickfont_color="black", title_font_color="black")
             fig.update_yaxes(tickfont_color="black", title_font_color="black")
             st.plotly_chart(fig, use_container_width=True)
@@ -1335,9 +1335,10 @@ with t_files:
         fig3 = make_subplots(specs=[[{"secondary_y":True}]])
         fig3.add_trace(go.Bar(x=smg["month"], y=smg["total"], name="Total", marker_color="#6c63ff", opacity=0.7), secondary_y=False)
         fig3.add_trace(go.Scatter(x=smg["month"], y=smg["late_pct"], name="Late %", line=dict(color="#fc5c7d",width=2.5), mode="lines+markers"), secondary_y=True)
-        fig3.update_layout(**DARK, title="Monthly Submissions & Late Rate")
-        fig3.update_yaxes(title_text="Submissions", secondary_y=False)
-        fig3.update_yaxes(title_text="Late %", secondary_y=True)
+        fig3.update_layout(**DARK, title="Monthly Submissions & Late Rate", legend=dict(font=dict(color="black")))
+        fig3.update_yaxes(title_text="Submissions", secondary_y=False , tickfont_color="black", title_font_color="black")
+        fig3.update_yaxes(title_text="Late %", secondary_y=True , tickfont_color="black", title_font_color="black")
+        fig3.update_xaxes(tickfont_color="black", title_font_color="black")
         st.plotly_chart(fig3, use_container_width=True)
 
 
