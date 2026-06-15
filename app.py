@@ -640,7 +640,7 @@ with t_questions:
         with c1: blue_metric("Pearson r", f"{corr:.3f}", sub="Correlation coefficient", icon="📊")
         with c2: blue_metric("Students", f"{len(df4):,}", sub="In analysis", icon="🎓")
         with c3: blue_metric("Strength", strength4, sub="Correlation strength", icon="💪")
-        fig = px.scatter(df4, x="att_rate", y="avg_grade", color="course_name", trendline="ols", opacity=0.6, labels={"att_rate":"Attendance (%)","avg_grade":"Avg Grade","course_name":"Course"},
+        fig = px.scatter(df4, x="att_rate", y="avg_grade", color="course_name", trendline="ols", opacity=0.6, labels={"att_rate":"Attendance (%)","avg_grade":"Average Grade","course_name":"Course"},
                          title="Attendance Rate vs Average Grade (OLS trend)")
         fig.update_layout(**DARK,legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
         fig.update_yaxes(title_text="Average Grade",tickfont_color="black", title_font_color="black")
@@ -650,8 +650,8 @@ with t_questions:
         df4["Band"] = pd.qcut(df4["att_rate"].rank(method="first"), 4, labels=["Q1 Low","Q2","Q3","Q4 High"])
         qdf = df4.groupby("Band")["avg_grade"].mean().reset_index()
         fig2 = px.bar(qdf, x="Band", y="avg_grade", color_discrete_sequence=["#3538CE"],
-                      text=qdf["avg_grade"].round(1), title="Avg Grade by Attendance Quartile",
-                      labels={"avg_grade":"Avg Grade"})
+                      text=qdf["avg_grade"].round(1), title="Average Grade by Attendance Quartile",
+                      labels={"avg_grade":"Average Grade"})
         fig2.update_traces(texttemplate="%{text}", textposition="outside")
         fig2.update_layout(**DARK, coloraxis_showscale=False, yaxis_range=[0,100])
         fig2.update_yaxes(title_text="Average Grade", tickfont_color="black", title_font_color="black")
@@ -865,7 +865,7 @@ with t_questions:
         with col1:
             fig = px.bar(band_stats, x="age_band", y="avg_grade", color_discrete_sequence=["#0a4ea3"],
                          text=band_stats["avg_grade"].round(1), title="Average Grade by Age Band",
-                         labels={"age_band":"Age Band","avg_grade":"Avg Grade"})
+                         labels={"age_band":"Age Band","avg_grade":"Average Grade"})
             fig.update_traces(texttemplate="%{text}", textposition="outside")
             fig.update_layout(**DARK, coloraxis_showscale=False, yaxis_range=[0,100])
             fig.update_xaxes(tickfont_color="black", title_font_color="black")
@@ -909,7 +909,7 @@ with t_questions:
         df11s = df11.merge(students[["student_id","course_name"]], on="student_id", how="left")
         fig2 = px.scatter(df11s, x="att_rate", y="avg_grade", color="segment", size="logins", opacity=0.7,
                           color_discrete_sequence=["#48cfad","#fc5c7d","#ffd32a","#6c63ff"],
-                          labels={"att_rate":"Attendance %","avg_grade":"Avg Grade","segment":"Segment"},
+                          labels={"att_rate":"Attendance %","avg_grade":"Average Grade","segment":"Segment"},
                           title="Segments — Attendance vs Grade (size=logins)")
         fig2.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
         fig2.update_xaxes(tickfont_color="black", title_font_color="black")
@@ -1052,7 +1052,7 @@ with t_questions:
         with col2:
             fig2 = px.scatter(top10, x="att_rate", y="avg_grade", size="failed_c", color="risk_score",
                               color_continuous_scale="Reds", text="full_name", hover_data=["course_name","group_name"],
-                              title="At-Risk: Attendance vs Grade", labels={"att_rate":"Att %","avg_grade":"Avg Grade"})
+                              title="At-Risk: Attendance vs Grade", labels={"att_rate":"Att %","avg_grade":"Average Grade"})
             fig2.update_traces(textposition="top center")
             fig2.update_layout(**DARK)
             fig2.update_xaxes(tickfont_color="black", title_font_color="black")
@@ -1066,7 +1066,7 @@ with t_questions:
         g15["seq"] = g15.groupby("group_id")["date"].transform(lambda x: pd.factorize(x.astype(str))[0]+1)
         trend15 = g15.groupby(["group_id","group_name","seq"])["score"].mean().reset_index()
         fig = px.line(trend15, x="seq", y="score", color="group_name", markers=True,
-                      labels={"seq":"Assessment #","score":"Avg Score","group_name":"Group"},
+                      labels={"seq":"Assessment #","score":"Average Score","group_name":"Group"},
                       title="Group Average Grade Across Successive Assessments")
         fig.update_layout(**DARK,  legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
         fig.update_xaxes(tickfont_color="black", title_font_color="black")
