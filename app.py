@@ -448,9 +448,8 @@ st.markdown(f'''
 </div>
 ''', unsafe_allow_html=True)
 
-t_main, t_files, t_questions, t_suggestions = st.tabs([
+t_main, t_questions, t_suggestions = st.tabs([
     "Overview",
-    "File Insights",
     "Answering Questions",
     "Suggestions & Decisions"
 ])
@@ -490,7 +489,7 @@ with t_main:
         grade_course = grade_course.groupby("course_name")["score"].mean().reset_index(name="avg_score").sort_values("avg_score")
         fig2 = px.bar(grade_course, x="avg_score", y="course_name", orientation="h", color="avg_score",
                       color_continuous_scale=["#fc5c7d","#ffd32a","#48cfad"], title="Average Grade by Course",
-                      labels={"avg_score":"Avg Score","course_name":"Course"})
+                      labels={"avg_score":"Average Score","course_name":"Course"})
         fig2.update_layout(**DARK, coloraxis_showscale=False, xaxis_range=[0,100])
         fig2.update_yaxes(tickfont_color="black", title_font_color="black")
         fig2.update_xaxes(tickfont_color="black", title_font_color="black")
@@ -518,8 +517,8 @@ with t_main:
     with st.container():
         by_course = students.groupby(["course_name","group_name"]).size().reset_index(name="students")
         fig3 = px.bar(by_course, x="students", y="group_name", color="course_name", orientation="h",
-                      color_discrete_sequence=COLORS, title="Students by Group and Course")
-        fig3.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
+                      title="Students by Group and Course")
+        fig3.update_layout(**DARK,legend_title_text="Course Name",legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
         fig3.update_xaxes(title="Age", title_font_color="black", tickfont_color="black")
         fig3.update_yaxes(title="Count", title_font_color="black", tickfont_color="black")
         st.plotly_chart(fig3, use_container_width=True)
@@ -687,7 +686,7 @@ with t_questions:
         st.plotly_chart(fig2, use_container_width=True)
 
         eng_counts = engagement.groupby("Event").size().reset_index(name="count")
-        fig3 = px.pie(eng_counts, values="count", names="Event", color_discrete_sequence=COLORS, hole=0.45,
+        fig3 = px.pie(eng_counts, values="count", color="Event", names="Event", hole=0.45,
                       title="Platform Event Type Breakdown")
         fig3.update_layout(**DARK , legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
         fig3.update_yaxes(tickfont_color="black", title_font_color="black")
@@ -816,6 +815,7 @@ with t_questions:
         eng9["week"] = eng9["event_datetime"].dt.to_period("W").astype(str)
         eng_wk = eng9.groupby("week").size().reset_index(name="events")
         merged9 = att_wk.merge(eng_wk, on="week", how="outer").sort_values("week")
+        merged9 = merged9.iloc[1:-1]
         fig = make_subplots(specs=[[{"secondary_y":True}]])
         fig.add_trace(go.Scatter(x=merged9["week"], y=merged9["att_rate"], name="Attendance %",
                                  line=dict(color="#48cfad",width=2.5), mode="lines"), secondary_y=False)
@@ -916,20 +916,21 @@ with t_questions:
         fig2.update_yaxes(tickfont_color="black", title_font_color="black")
         st.plotly_chart(fig2, use_container_width=True)
         
-        pal = ["#48cfad","#fc5c7d","#ffd32a","#6c63ff"]
-        fig3 = go.Figure()
-        cats = ["Attendance","Avg Grade","Logins","Video","Mastery"]
-        for i,(_,row) in enumerate(seg_stats.iterrows()):
-            vals = [row["att_rate"]/100*10, row["avg_grade"]/10,
-                    row["logins"]/max(df11["logins"].max(),1)*10,
-                    row["video_sec"]/max(df11["video_sec"].max(),1)*10,
-                    (1-row["failed_c"]/max(df11["failed_c"].max(),1))*10]
-            fig3.add_trace(go.Scatterpolar(r=vals+[vals[0]], theta=cats+[cats[0]], fill="toself",
-                                            name=seg_labels[row["cluster"]], line=dict(color=pal[i])))
-        fig3.update_layout(**DARK, polar=dict(bgcolor="#1a1d2e"), title="Segment Radar Profile (0–10 normalised)")
-        fig3.update_xaxes(tickfont_color="black", title_font_color="black")
-        fig3.update_yaxes(tickfont_color="black", title_font_color="black")
-        st.plotly_chart(fig3, use_container_width=True)
+        # pal = ["#48cfad","#fc5c7d","#ffd32a","#6c63ff"]
+        # fig3 = go.Figure()
+        # cats = ["Attendance","Avg Grade","Logins","Video","Mastery"]
+        # for i,(_,row) in enumerate(seg_stats.iterrows()):
+        #     vals = [row["att_rate"]/100*10, row["avg_grade"]/10,
+        #             row["logins"]/max(df11["logins"].max(),1)*10,
+        #             row["video_sec"]/max(df11["video_sec"].max(),1)*10,
+        #             (1-row["failed_c"]/max(df11["failed_c"].max(),1))*10]
+        #     fig3.add_trace(go.Scatterpolar(r=vals+[vals[0]], theta=cats+[cats[0]], fill="toself",
+        #                                     name=seg_labels[row["cluster"]], line=dict(color=pal[i])))
+        # fig3.update_layout(**DARK, polar=dict(bgcolor="#1a1d2e"), title="Segment Radar Profile (0–10 normalised)")
+        # fig3.update_xaxes(tickfont_color="black", title_font_color="black")
+        # fig3.update_yaxes(tickfont_color="black", title_font_color="black")
+        # st.plotly_chart(fig3, use_container_width=True)
+
         st.markdown("**Segment Summary:**")
         for label in set(seg_labels.values()):
             r = df11[df11["segment"]==label][features].mean()
