@@ -1109,214 +1109,214 @@ with t_questions:
             f"Slope metric enables easy prioritisation — any negative slope warrants immediate intervention.")
 
 
-# ═══════════════ TAB 2 — FILE INSIGHTS ═════════════════════════════════════
-with t_files:
-    st.title("📂 File-Level Insights")
-    f_tabs = st.tabs(["👥 Students","📚 Courses & Groups","📊 Grades","🎯 Concepts","📅 Attendance","⚡ Engagement","📝 Submissions"])
+# # ═══════════════ TAB 2 — FILE INSIGHTS ═════════════════════════════════════
+# with t_files:
+#     st.title("📂 File-Level Insights")
+#     f_tabs = st.tabs(["👥 Students","📚 Courses & Groups","📊 Grades","🎯 Concepts","📅 Attendance","⚡ Engagement","📝 Submissions"])
 
-    with f_tabs[0]:
-        st.subheader("Students")
-        c1,c2,c3,c4 = st.columns(4)
-        with c1: blue_metric("Total", str(len(students)), sub="Enrolled students", icon="🎓")
-        with c2: blue_metric("Avg Age", f"{students['age'].mean():.1f}", sub="Years old", icon="🎂")
-        with c3: blue_metric("Cities", str(students['city'].nunique()), sub="Represented", icon="🏙️")
-        with c4: blue_metric("Female %", f"{(students['gender']=='Female').mean()*100:.0f}%", sub="Gender split", icon="👩")
-        col1,col2 = st.columns(2)
-        with col1:
-            fig = px.histogram(students, x="age", nbins=20, color_discrete_sequence=["#6c63ff"], title="Age Distribution")
-            fig.update_layout(**DARK , legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
-            fig.update_xaxes(tickfont_color="black", title_font_color="black")
-            fig.update_yaxes(tickfont_color="black", title_font_color="black")
-            st.plotly_chart(fig, use_container_width=True)
-        with col2:
-            fig2 = px.pie(students, names="gender", hole=0.45, color_discrete_sequence=["#6c63ff","#fc5c7d"], title="Gender")
-            fig2.update_layout(**DARK ,  legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
-            st.plotly_chart(fig2, use_container_width=True)
+#     with f_tabs[0]:
+#         st.subheader("Students")
+#         c1,c2,c3,c4 = st.columns(4)
+#         with c1: blue_metric("Total", str(len(students)), sub="Enrolled students", icon="🎓")
+#         with c2: blue_metric("Avg Age", f"{students['age'].mean():.1f}", sub="Years old", icon="🎂")
+#         with c3: blue_metric("Cities", str(students['city'].nunique()), sub="Represented", icon="🏙️")
+#         with c4: blue_metric("Female %", f"{(students['gender']=='Female').mean()*100:.0f}%", sub="Gender split", icon="👩")
+#         col1,col2 = st.columns(2)
+#         with col1:
+#             fig = px.histogram(students, x="age", nbins=20, color_discrete_sequence=["#6c63ff"], title="Age Distribution")
+#             fig.update_layout(**DARK , legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
+#             fig.update_xaxes(tickfont_color="black", title_font_color="black")
+#             fig.update_yaxes(tickfont_color="black", title_font_color="black")
+#             st.plotly_chart(fig, use_container_width=True)
+#         with col2:
+#             fig2 = px.pie(students, names="gender", hole=0.45, color_discrete_sequence=["#6c63ff","#fc5c7d"], title="Gender")
+#             fig2.update_layout(**DARK ,  legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
+#             st.plotly_chart(fig2, use_container_width=True)
 
-    with f_tabs[1]:
-        st.subheader("Courses & Groups")
-        col1,col2 = st.columns(2)
-        with col1:
-            cat_c = courses["category"].value_counts().reset_index(); cat_c.columns=["Category","Count"]
-            fig = px.pie(cat_c, values="Count", names="Category", color_discrete_sequence=COLORS, hole=0.4, title="Courses by Category")
-            fig.update_layout(**DARK,legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
-            st.plotly_chart(fig, use_container_width=True)
-        with col2:
-            fig2 = px.bar(courses, x="course_name", y="duration_weeks", color="difficulty_level",
-                          color_discrete_map={"Beginner":"#48cfad","Intermediate":"#ffd32a","Advanced":"#fc5c7d"},
-                          title="Duration by Difficulty", labels={"course_name":"Course","duration_weeks":"Weeks"})
-            fig2.update_layout(**DARK, xaxis_tickangle=-20, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
-            fig2.update_xaxes(tickfont_color="black", title_font_color="black")
-            fig2.update_yaxes(tickfont_color="black", title_font_color="black")
-            st.plotly_chart(fig2, use_container_width=True)
-        tsz = students.groupby(["group_id","course_name"]).size().reset_index(name="students")
-        fig3 = px.bar(tsz.sort_values("students"), x="students", y="group_id", orientation="h",
-                      color="course_name", color_discrete_sequence=COLORS, title="True Enrollment per Group",
-                      labels={"students":"Students","group_id":"Group"})
-        fig3.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
-        fig3.update_xaxes(tickfont_color="black", title_font_color="black")
-        fig3.update_yaxes(tickfont_color="black", title_font_color="black")
-        st.plotly_chart(fig3, use_container_width=True)
+#     with f_tabs[1]:
+#         st.subheader("Courses & Groups")
+#         col1,col2 = st.columns(2)
+#         with col1:
+#             cat_c = courses["category"].value_counts().reset_index(); cat_c.columns=["Category","Count"]
+#             fig = px.pie(cat_c, values="Count", names="Category", color_discrete_sequence=COLORS, hole=0.4, title="Courses by Category")
+#             fig.update_layout(**DARK,legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
+#             st.plotly_chart(fig, use_container_width=True)
+#         with col2:
+#             fig2 = px.bar(courses, x="course_name", y="duration_weeks", color="difficulty_level",
+#                           color_discrete_map={"Beginner":"#48cfad","Intermediate":"#ffd32a","Advanced":"#fc5c7d"},
+#                           title="Duration by Difficulty", labels={"course_name":"Course","duration_weeks":"Weeks"})
+#             fig2.update_layout(**DARK, xaxis_tickangle=-20, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
+#             fig2.update_xaxes(tickfont_color="black", title_font_color="black")
+#             fig2.update_yaxes(tickfont_color="black", title_font_color="black")
+#             st.plotly_chart(fig2, use_container_width=True)
+#         tsz = students.groupby(["group_id","course_name"]).size().reset_index(name="students")
+#         fig3 = px.bar(tsz.sort_values("students"), x="students", y="group_id", orientation="h",
+#                       color="course_name", color_discrete_sequence=COLORS, title="True Enrollment per Group",
+#                       labels={"students":"Students","group_id":"Group"})
+#         fig3.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
+#         fig3.update_xaxes(tickfont_color="black", title_font_color="black")
+#         fig3.update_yaxes(tickfont_color="black", title_font_color="black")
+#         st.plotly_chart(fig3, use_container_width=True)
 
-    with f_tabs[2]:
-        st.subheader("Grades")
-        c1,c2,c3 = st.columns(3)
-        with c1: blue_metric("Total", f"{len(grades):,}", sub="Grade records", icon="📝")
-        with c2: blue_metric("Avg Score", f"{grades['score'].mean():.1f}", sub="Out of 100", icon="📈")
-        with c3: blue_metric("Pass Rate ≥60", f"{(grades['score']>=60).mean()*100:.1f}%", sub="Passing assessments", icon="✅")
-        col1,col2 = st.columns(2)
-        with col1:
-            fig = px.histogram(grades, x="score", color="type", nbins=40, barmode="overlay", opacity=0.75,
-                               color_discrete_map={"quiz":"#6c63ff","assignment":"#48cfad","practical":"#ffd32a","exam":"#fc5c7d"},
-                               title="Grade Distribution by Type")
-            fig.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
-            fig.update_xaxes(tickfont_color="black", title_font_color="black")
-            fig.update_yaxes(tickfont_color="black", title_font_color="black")
-            st.plotly_chart(fig, use_container_width=True)
+#     with f_tabs[2]:
+#         st.subheader("Grades")
+#         c1,c2,c3 = st.columns(3)
+#         with c1: blue_metric("Total", f"{len(grades):,}", sub="Grade records", icon="📝")
+#         with c2: blue_metric("Avg Score", f"{grades['score'].mean():.1f}", sub="Out of 100", icon="📈")
+#         with c3: blue_metric("Pass Rate ≥60", f"{(grades['score']>=60).mean()*100:.1f}%", sub="Passing assessments", icon="✅")
+#         col1,col2 = st.columns(2)
+#         with col1:
+#             fig = px.histogram(grades, x="score", color="type", nbins=40, barmode="overlay", opacity=0.75,
+#                                color_discrete_map={"quiz":"#6c63ff","assignment":"#48cfad","practical":"#ffd32a","exam":"#fc5c7d"},
+#                                title="Grade Distribution by Type")
+#             fig.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
+#             fig.update_xaxes(tickfont_color="black", title_font_color="black")
+#             fig.update_yaxes(tickfont_color="black", title_font_color="black")
+#             st.plotly_chart(fig, use_container_width=True)
         
-        with col2:
-            gf = grades.merge(courses[["course_id","course_name"]], on="course_id", how="left")
-            course_grade = gf.groupby("course_name")["score"].agg(["mean","std"]).reset_index().sort_values("mean")
-            fig2 = px.bar(course_grade, x="mean", y="course_name", orientation="h", color="mean",
-                          color_continuous_scale=["#fc5c7d","#ffd32a","#48cfad"], title="Average Grade by Course",
-                          labels={"mean":"Avg Score","course_name":"Course"})
-            fig2.update_layout(**DARK, coloraxis_showscale=False, xaxis_range=[0,100])
-            fig2.update_xaxes(tickfont_color="black", title_font_color="black")
-            fig2.update_yaxes(tickfont_color="black", title_font_color="black")
-            st.plotly_chart(fig2, use_container_width=True)
+#         with col2:
+#             gf = grades.merge(courses[["course_id","course_name"]], on="course_id", how="left")
+#             course_grade = gf.groupby("course_name")["score"].agg(["mean","std"]).reset_index().sort_values("mean")
+#             fig2 = px.bar(course_grade, x="mean", y="course_name", orientation="h", color="mean",
+#                           color_continuous_scale=["#fc5c7d","#ffd32a","#48cfad"], title="Average Grade by Course",
+#                           labels={"mean":"Avg Score","course_name":"Course"})
+#             fig2.update_layout(**DARK, coloraxis_showscale=False, xaxis_range=[0,100])
+#             fig2.update_xaxes(tickfont_color="black", title_font_color="black")
+#             fig2.update_yaxes(tickfont_color="black", title_font_color="black")
+#             st.plotly_chart(fig2, use_container_width=True)
             
-        gf = grades.merge(courses[["course_id","course_name"]], on="course_id", how="left")
-        gf["month"] = gf["date"].dt.to_period("M").astype(str)
-        mg = gf.groupby(["month","course_name"])["score"].mean().reset_index()
-        fig2 = px.line(mg, x="month", y="score", color="course_name", color_discrete_sequence=COLORS, markers=True,
-                       title="Avg Score Over Time by Course")
-        fig2.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
-        fig2.update_xaxes(tickfont_color="black", title_font_color="black")
-        fig2.update_yaxes(tickfont_color="black", title_font_color="black")
-        st.plotly_chart(fig2, use_container_width=True)
+#         gf = grades.merge(courses[["course_id","course_name"]], on="course_id", how="left")
+#         gf["month"] = gf["date"].dt.to_period("M").astype(str)
+#         mg = gf.groupby(["month","course_name"])["score"].mean().reset_index()
+#         fig2 = px.line(mg, x="month", y="score", color="course_name", color_discrete_sequence=COLORS, markers=True,
+#                        title="Avg Score Over Time by Course")
+#         fig2.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
+#         fig2.update_xaxes(tickfont_color="black", title_font_color="black")
+#         fig2.update_yaxes(tickfont_color="black", title_font_color="black")
+#         st.plotly_chart(fig2, use_container_width=True)
 
-    with f_tabs[3]:
-        st.subheader("Concept Mastery")
-        c1,c2,c3 = st.columns(3)
-        with c1: blue_metric("Total Records", f"{len(concepts):,}", sub="Concept attempts", icon="🎯")
-        with c2: blue_metric("Pass Rate", f"{(concepts['mastery_status']=='passed').mean()*100:.1f}%", sub="Mastery achieved", icon="✅")
-        with c3: blue_metric("Concepts", str(concepts['concept_name'].nunique()), sub="Unique concepts", icon="🧠")
-        fail_c = concepts.groupby("concept_name")["mastery_status"].apply(lambda x: (x=="failed").mean()*100).reset_index(name="fail_rate")
-        fig = px.bar(fail_c.sort_values("fail_rate").tail(15), x="fail_rate", y="concept_name", orientation="h",
-                     color="fail_rate", color_continuous_scale=["#48cfad","#ffd32a","#fc5c7d"],
-                     title="Top 15 Concepts by Failure Rate", labels={"fail_rate":"Fail %","concept_name":""})
-        fig.update_layout(**DARK, coloraxis_showscale=False)
-        fig.update_xaxes(tickfont_color="black", title_font_color="black")
-        fig.update_yaxes(tickfont_color="black", title_font_color="black")
-        st.plotly_chart(fig, use_container_width=True)
-        crs_pass = concepts.groupby("course_id")["mastery_status"].apply(lambda x: (x=="passed").mean()*100).reset_index(name="pass_rate")
-        crs_pass = crs_pass.merge(courses[["course_id","course_name"]], on="course_id")
-        fig2 = px.bar(crs_pass.sort_values("pass_rate"), x="pass_rate", y="course_name", orientation="h",
-                      color="pass_rate", color_continuous_scale=["#fc5c7d","#ffd32a","#48cfad"],
-                      title="Concept Pass Rate by Course", labels={"pass_rate":"Pass %","course_name":""})
-        fig2.update_layout(**DARK, coloraxis_showscale=False, xaxis_range=[0,110])
-        fig2.update_xaxes(tickfont_color="black", title_font_color="black")
-        fig2.update_yaxes(tickfont_color="black", title_font_color="black")
-        st.plotly_chart(fig2, use_container_width=True)
+#     with f_tabs[3]:
+#         st.subheader("Concept Mastery")
+#         c1,c2,c3 = st.columns(3)
+#         with c1: blue_metric("Total Records", f"{len(concepts):,}", sub="Concept attempts", icon="🎯")
+#         with c2: blue_metric("Pass Rate", f"{(concepts['mastery_status']=='passed').mean()*100:.1f}%", sub="Mastery achieved", icon="✅")
+#         with c3: blue_metric("Concepts", str(concepts['concept_name'].nunique()), sub="Unique concepts", icon="🧠")
+#         fail_c = concepts.groupby("concept_name")["mastery_status"].apply(lambda x: (x=="failed").mean()*100).reset_index(name="fail_rate")
+#         fig = px.bar(fail_c.sort_values("fail_rate").tail(15), x="fail_rate", y="concept_name", orientation="h",
+#                      color="fail_rate", color_continuous_scale=["#48cfad","#ffd32a","#fc5c7d"],
+#                      title="Top 15 Concepts by Failure Rate", labels={"fail_rate":"Fail %","concept_name":""})
+#         fig.update_layout(**DARK, coloraxis_showscale=False)
+#         fig.update_xaxes(tickfont_color="black", title_font_color="black")
+#         fig.update_yaxes(tickfont_color="black", title_font_color="black")
+#         st.plotly_chart(fig, use_container_width=True)
+#         crs_pass = concepts.groupby("course_id")["mastery_status"].apply(lambda x: (x=="passed").mean()*100).reset_index(name="pass_rate")
+#         crs_pass = crs_pass.merge(courses[["course_id","course_name"]], on="course_id")
+#         fig2 = px.bar(crs_pass.sort_values("pass_rate"), x="pass_rate", y="course_name", orientation="h",
+#                       color="pass_rate", color_continuous_scale=["#fc5c7d","#ffd32a","#48cfad"],
+#                       title="Concept Pass Rate by Course", labels={"pass_rate":"Pass %","course_name":""})
+#         fig2.update_layout(**DARK, coloraxis_showscale=False, xaxis_range=[0,110])
+#         fig2.update_xaxes(tickfont_color="black", title_font_color="black")
+#         fig2.update_yaxes(tickfont_color="black", title_font_color="black")
+#         st.plotly_chart(fig2, use_container_width=True)
 
-    with f_tabs[4]:
-        st.subheader("Attendance")
-        att_p = (attendance["status"]=="attended").mean()*100
-        c1,c2,c3 = st.columns(3)
-        with c1: blue_metric("Platform Rate", f"{att_p:.1f}%", sub="Overall attendance", icon="📅")
-        with c2: blue_metric("Total Sessions", f"{len(attendance):,}", sub="Session records", icon="📋")
-        with c3: blue_metric("Session Types", str(attendance['session_type'].nunique()), sub="Different types", icon="📂")
-        col1,col2 = st.columns(2)
-        with col1:
-            type_att = attendance.groupby("session_type").apply(lambda x: (x["status"]=="attended").mean()*100).reset_index(name="rate")
-            fig = px.bar(type_att, x="session_type", y="rate", color="rate", color_discrete_sequence=["#4CAF50"],
-                         text=type_att["rate"].round(1), title="Attendance by Session Type")
-            fig.update_traces(texttemplate="%{text}%", textposition="outside")
-            fig.update_layout(**DARK, coloraxis_showscale=False, yaxis_range=[0,110])
-            fig.update_xaxes(tickfont_color="black", title_font_color="black")
-            fig.update_yaxes(tickfont_color="black", title_font_color="black")
-            st.plotly_chart(fig, use_container_width=True)
-        with col2:
-            fig2 = px.pie(attendance, names="status", hole=0.45,
-                          color_discrete_map={"attended":"#48cfad","absent":"#fc5c7d"}, title="Attended vs Absent")
-            fig2.update_layout(**DARK , legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
-            st.plotly_chart(fig2, use_container_width=True)
+#     with f_tabs[4]:
+#         st.subheader("Attendance")
+#         att_p = (attendance["status"]=="attended").mean()*100
+#         c1,c2,c3 = st.columns(3)
+#         with c1: blue_metric("Platform Rate", f"{att_p:.1f}%", sub="Overall attendance", icon="📅")
+#         with c2: blue_metric("Total Sessions", f"{len(attendance):,}", sub="Session records", icon="📋")
+#         with c3: blue_metric("Session Types", str(attendance['session_type'].nunique()), sub="Different types", icon="📂")
+#         col1,col2 = st.columns(2)
+#         with col1:
+#             type_att = attendance.groupby("session_type").apply(lambda x: (x["status"]=="attended").mean()*100).reset_index(name="rate")
+#             fig = px.bar(type_att, x="session_type", y="rate", color="rate", color_discrete_sequence=["#4CAF50"],
+#                          text=type_att["rate"].round(1), title="Attendance by Session Type")
+#             fig.update_traces(texttemplate="%{text}%", textposition="outside")
+#             fig.update_layout(**DARK, coloraxis_showscale=False, yaxis_range=[0,110])
+#             fig.update_xaxes(tickfont_color="black", title_font_color="black")
+#             fig.update_yaxes(tickfont_color="black", title_font_color="black")
+#             st.plotly_chart(fig, use_container_width=True)
+#         with col2:
+#             fig2 = px.pie(attendance, names="status", hole=0.45,
+#                           color_discrete_map={"attended":"#48cfad","absent":"#fc5c7d"}, title="Attended vs Absent")
+#             fig2.update_layout(**DARK , legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
+#             st.plotly_chart(fig2, use_container_width=True)
 
-        with st.container():
-            att_p = (attendance["status"]=="attended").mean()*100
-            group_att_tab = attendance.groupby("group_id").apply(lambda x: (x["status"]=="attended").mean()*100).reset_index(name="att_rate")
-            group_att_tab = group_att_tab.merge(groups[["group_id","group_name","course_id"]], on="group_id", how="left").merge(courses[["course_id","course_name"]], on="course_id", how="left")
-            fig = px.bar(group_att_tab.sort_values("att_rate"), x="att_rate", y="group_name", orientation="h", color="att_rate",
-                     color_continuous_scale=["#fc5c7d","#ffd32a","#48cfad"], title="Attendance Rate by Group",
-                     labels={"att_rate":"Attendance %","group_name":"Group"})
-            fig.update_layout(**DARK, coloraxis_showscale=False, xaxis_range=[0,100])
-            fig.update_xaxes(tickfont_color="black", title_font_color="black")
-            fig.update_yaxes(tickfont_color="black", title_font_color="black")
-            st.plotly_chart(fig, use_container_width=True)
+#         with st.container():
+#             att_p = (attendance["status"]=="attended").mean()*100
+#             group_att_tab = attendance.groupby("group_id").apply(lambda x: (x["status"]=="attended").mean()*100).reset_index(name="att_rate")
+#             group_att_tab = group_att_tab.merge(groups[["group_id","group_name","course_id"]], on="group_id", how="left").merge(courses[["course_id","course_name"]], on="course_id", how="left")
+#             fig = px.bar(group_att_tab.sort_values("att_rate"), x="att_rate", y="group_name", orientation="h", color="att_rate",
+#                      color_continuous_scale=["#fc5c7d","#ffd32a","#48cfad"], title="Attendance Rate by Group",
+#                      labels={"att_rate":"Attendance %","group_name":"Group"})
+#             fig.update_layout(**DARK, coloraxis_showscale=False, xaxis_range=[0,100])
+#             fig.update_xaxes(tickfont_color="black", title_font_color="black")
+#             fig.update_yaxes(tickfont_color="black", title_font_color="black")
+#             st.plotly_chart(fig, use_container_width=True)
 
-    with f_tabs[5]:
-        st.subheader("Engagement")
-        c1,c2,c3,c4 = st.columns(4)
-        with c1: blue_metric("Total Events", f"{len(engagement):,}", sub="Platform events", icon="⚡")
-        with c2: blue_metric("Unique Students", str(engagement['student_id'].nunique()), sub="Active users", icon="🎓")
-        with c3: blue_metric("Avg Events/Student", f"{len(engagement)/engagement['student_id'].nunique():.0f}", sub="Per student", icon="📊")
-        with c4: blue_metric("Web %", f"{(engagement['device']=='web').mean()*100:.0f}%", sub="Device share", icon="💻")
-        col1,col2 = st.columns(2)
-        with col1:
-            ec = engagement.groupby("event_type").size().reset_index(name="count")
-            fig = px.pie(ec, values="count", names="event_type", color_discrete_sequence=COLORS, hole=0.45, title="Events by Type")
-            fig.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
-            fig.update_xaxes(tickfont_color="black", title_font_color="black")
-            fig.update_yaxes(tickfont_color="black", title_font_color="black")
-            st.plotly_chart(fig, use_container_width=True)
-        with col2:
-            dt = engagement.groupby(["device","event_type"]).size().reset_index(name="count")
-            fig2 = px.bar(dt, x="device", y="count", color="event_type", color_discrete_sequence=COLORS, barmode="stack", title="Events by Device")
-            fig2.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
-            fig2.update_xaxes(tickfont_color="black", title_font_color="black")
-            fig2.update_yaxes(tickfont_color="black", title_font_color="black")
-            st.plotly_chart(fig2, use_container_width=True)
-        em2 = engagement.copy(); em2["month"] = em2["event_datetime"].dt.to_period("M").astype(str)
-        em3 = em2.groupby(["month","event_type"]).size().reset_index(name="count")
-        fig3 = px.line(em3, x="month", y="count", color="event_type", color_discrete_sequence=COLORS, markers=True, title="Monthly Engagement by Type")
-        fig3.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
-        fig3.update_xaxes(tickfont_color="black", title_font_color="black")
-        fig3.update_yaxes(tickfont_color="black", title_font_color="black")
-        st.plotly_chart(fig3, use_container_width=True)
+#     with f_tabs[5]:
+#         st.subheader("Engagement")
+#         c1,c2,c3,c4 = st.columns(4)
+#         with c1: blue_metric("Total Events", f"{len(engagement):,}", sub="Platform events", icon="⚡")
+#         with c2: blue_metric("Unique Students", str(engagement['student_id'].nunique()), sub="Active users", icon="🎓")
+#         with c3: blue_metric("Avg Events/Student", f"{len(engagement)/engagement['student_id'].nunique():.0f}", sub="Per student", icon="📊")
+#         with c4: blue_metric("Web %", f"{(engagement['device']=='web').mean()*100:.0f}%", sub="Device share", icon="💻")
+#         col1,col2 = st.columns(2)
+#         with col1:
+#             ec = engagement.groupby("event_type").size().reset_index(name="count")
+#             fig = px.pie(ec, values="count", names="event_type", color_discrete_sequence=COLORS, hole=0.45, title="Events by Type")
+#             fig.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
+#             fig.update_xaxes(tickfont_color="black", title_font_color="black")
+#             fig.update_yaxes(tickfont_color="black", title_font_color="black")
+#             st.plotly_chart(fig, use_container_width=True)
+#         with col2:
+#             dt = engagement.groupby(["device","event_type"]).size().reset_index(name="count")
+#             fig2 = px.bar(dt, x="device", y="count", color="event_type", color_discrete_sequence=COLORS, barmode="stack", title="Events by Device")
+#             fig2.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
+#             fig2.update_xaxes(tickfont_color="black", title_font_color="black")
+#             fig2.update_yaxes(tickfont_color="black", title_font_color="black")
+#             st.plotly_chart(fig2, use_container_width=True)
+#         em2 = engagement.copy(); em2["month"] = em2["event_datetime"].dt.to_period("M").astype(str)
+#         em3 = em2.groupby(["month","event_type"]).size().reset_index(name="count")
+#         fig3 = px.line(em3, x="month", y="count", color="event_type", color_discrete_sequence=COLORS, markers=True, title="Monthly Engagement by Type")
+#         fig3.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
+#         fig3.update_xaxes(tickfont_color="black", title_font_color="black")
+#         fig3.update_yaxes(tickfont_color="black", title_font_color="black")
+#         st.plotly_chart(fig3, use_container_width=True)
 
-    with f_tabs[6]:
-        st.subheader("Assignment Submissions")
-        c1,c2,c3,c4 = st.columns(4)
-        with c1: blue_metric("Total", f"{len(submissions):,}", sub="Submissions", icon="📤")
-        with c2: blue_metric("Late Rate", f"{submissions['is_late'].mean()*100:.1f}%", sub="Of all submissions", icon="⏰")
-        with c3: blue_metric("Avg Time", f"{submissions['time_spent_minutes'].mean():.0f} min", sub="Per submission", icon="⏱️")
-        with c4: blue_metric("Avg Attempts", f"{submissions['attempts'].mean():.1f}", sub="Per student", icon="🔄")
-        col1,col2 = st.columns(2)
-        with col1:
-            fig = px.pie(submissions, names="is_late", hole=0.45,
-                         color_discrete_map={True:"#fc5c7d",False:"#48cfad"}, title="Late vs On-Time")
-            fig.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
-            fig.update_xaxes(tickfont_color="black", title_font_color="black")
-            fig.update_yaxes(tickfont_color="black", title_font_color="black")
-            st.plotly_chart(fig, use_container_width=True)
-        with col2:
-            fig2 = px.histogram(submissions, x="time_spent_minutes", nbins=30, color_discrete_sequence=["#6c63ff"],
-                                title="Time Spent Distribution")
-            fig2.update_layout(**DARK)
-            fig2.update_xaxes(tickfont_color="black", title_font_color="black")
-            fig2.update_yaxes(tickfont_color="black", title_font_color="black")
-            st.plotly_chart(fig2, use_container_width=True)
-        sm = submissions.copy(); sm["month"] = sm["submitted_at"].dt.to_period("M").astype(str)
-        smg = sm.groupby("month").agg(total=("submission_id","count"), late=("is_late","sum")).reset_index()
-        smg["late_pct"] = smg["late"]/smg["total"]*100
-        fig3 = make_subplots(specs=[[{"secondary_y":True}]])
-        fig3.add_trace(go.Bar(x=smg["month"], y=smg["total"], name="Total", marker_color="#6c63ff", opacity=0.7), secondary_y=False)
-        fig3.add_trace(go.Scatter(x=smg["month"], y=smg["late_pct"], name="Late %", line=dict(color="#fc5c7d",width=2.5), mode="lines+markers"), secondary_y=True)
-        fig3.update_layout(**DARK, title="Monthly Submissions & Late Rate", legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
-        fig3.update_yaxes(title_text="Submissions", secondary_y=False , tickfont_color="black", title_font_color="black")
-        fig3.update_yaxes(title_text="Late %", secondary_y=True , tickfont_color="black", title_font_color="black")
-        fig3.update_xaxes(tickfont_color="black", title_font_color="black")
-        st.plotly_chart(fig3, use_container_width=True)
+#     with f_tabs[6]:
+#         st.subheader("Assignment Submissions")
+#         c1,c2,c3,c4 = st.columns(4)
+#         with c1: blue_metric("Total", f"{len(submissions):,}", sub="Submissions", icon="📤")
+#         with c2: blue_metric("Late Rate", f"{submissions['is_late'].mean()*100:.1f}%", sub="Of all submissions", icon="⏰")
+#         with c3: blue_metric("Avg Time", f"{submissions['time_spent_minutes'].mean():.0f} min", sub="Per submission", icon="⏱️")
+#         with c4: blue_metric("Avg Attempts", f"{submissions['attempts'].mean():.1f}", sub="Per student", icon="🔄")
+#         col1,col2 = st.columns(2)
+#         with col1:
+#             fig = px.pie(submissions, names="is_late", hole=0.45,
+#                          color_discrete_map={True:"#fc5c7d",False:"#48cfad"}, title="Late vs On-Time")
+#             fig.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
+#             fig.update_xaxes(tickfont_color="black", title_font_color="black")
+#             fig.update_yaxes(tickfont_color="black", title_font_color="black")
+#             st.plotly_chart(fig, use_container_width=True)
+#         with col2:
+#             fig2 = px.histogram(submissions, x="time_spent_minutes", nbins=30, color_discrete_sequence=["#6c63ff"],
+#                                 title="Time Spent Distribution")
+#             fig2.update_layout(**DARK)
+#             fig2.update_xaxes(tickfont_color="black", title_font_color="black")
+#             fig2.update_yaxes(tickfont_color="black", title_font_color="black")
+#             st.plotly_chart(fig2, use_container_width=True)
+#         sm = submissions.copy(); sm["month"] = sm["submitted_at"].dt.to_period("M").astype(str)
+#         smg = sm.groupby("month").agg(total=("submission_id","count"), late=("is_late","sum")).reset_index()
+#         smg["late_pct"] = smg["late"]/smg["total"]*100
+#         fig3 = make_subplots(specs=[[{"secondary_y":True}]])
+#         fig3.add_trace(go.Bar(x=smg["month"], y=smg["total"], name="Total", marker_color="#6c63ff", opacity=0.7), secondary_y=False)
+#         fig3.add_trace(go.Scatter(x=smg["month"], y=smg["late_pct"], name="Late %", line=dict(color="#fc5c7d",width=2.5), mode="lines+markers"), secondary_y=True)
+#         fig3.update_layout(**DARK, title="Monthly Submissions & Late Rate", legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
+#         fig3.update_yaxes(title_text="Submissions", secondary_y=False , tickfont_color="black", title_font_color="black")
+#         fig3.update_yaxes(title_text="Late %", secondary_y=True , tickfont_color="black", title_font_color="black")
+#         fig3.update_xaxes(tickfont_color="black", title_font_color="black")
+#         st.plotly_chart(fig3, use_container_width=True)
 
 
 # ═══════════════ TAB 3 — SUGGESTIONS ════════════════════════════════════════
