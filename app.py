@@ -442,7 +442,7 @@ _avg_grade_hero = grades['score'].mean()
 st.markdown(f'''
 <div class="hero-card">
     <div class="hero-tag">Academic Analytics Intelligence</div>
-    <div class="hero-subtitle">Kayfa Analytics · Academic Term 2025 – 2026</div>
+    <div class="hero-subtitle">Kayfa Analytics · Week #2 Task</div>
     <div class="hero-title">Academic Performance<br>Intelligence Report</div>
     <div class="hero-desc">Analyse student patterns, uncover academic risks, and turn educational data into clear action plans — across {len(students):,} student records.</div>
 </div>
