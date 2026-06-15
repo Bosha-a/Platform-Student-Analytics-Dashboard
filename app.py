@@ -561,29 +561,32 @@ with t_questions:
     # Q2
     with q_tabs[1]:
         st.subheader("Q2 · Score Distribution by Assessment Type")
+        clr_map = {"quiz":"#6c63ff","assignment":"#48cfad","practical":"#ffd32a","exam":"#fc5c7d"}
+        type_labels = {"quiz": "Quiz","assignment": "Assignment","practical": "Practical","exam": "Exam"}
+        grades["Type"] = grades["type"].map(type_labels)
         stats2 = grades.groupby("type")["score"].agg(["mean","std","median"]).reset_index()
         stats2.columns = ["Type","Mean","Std","Median"]
-        clr_map = {"quiz":"#6c63ff","assignment":"#48cfad","practical":"#ffd32a","exam":"#fc5c7d"}
+        
         cols = st.columns(4)
         icons2 = {"Quiz":"📝","Assignment":"📋","Practical":"🔬","Exam":"📚"}
         for col,(_,row) in zip(cols, stats2.iterrows()):
             with col: blue_metric(row['Type'].title(), f"{row['Mean']:.1f}", sub=f"σ={row['Std']:.1f}", icon=icons2.get(row['Type'].title(),'📊'))
         col1,col2 = st.columns(2)
         with col1:
-            fig = px.box(grades, x="type", y="score", color="type", color_discrete_map=clr_map, points="outliers",
+            fig = px.box(grades, x="Type", y="score", color="Type", color_discrete_map=clr_map, points="outliers",
                          labels={"type":"Type","score":"Score"}, title="Score Distribution per Type")
             fig.update_layout(**DARK, showlegend=False)
             fig.update_yaxes(tickfont_color="black", title_font_color="black")
             fig.update_xaxes(tickfont_color="black", title_font_color="black")
             st.plotly_chart(fig, use_container_width=True)
         with col2:
-            fig2 = px.violin(grades, x="type", y="score", color="type", color_discrete_map=clr_map, box=True,
+            fig2 = px.violin(grades, x="Type", y="score", color="Type", color_discrete_map=clr_map, box=True,
                              labels={"type":"Type","score":"Score"}, title="Density Shape per Type")
             fig2.update_layout(**DARK, showlegend=False)
             fig2.update_yaxes(tickfont_color="black", title_font_color="black")
             fig2.update_xaxes(tickfont_color="black", title_font_color="black")
             st.plotly_chart(fig2, use_container_width=True)
-        fig3 = px.histogram(grades, x="score", color="type", nbins=40, barmode="overlay", opacity=0.7,
+        fig3 = px.histogram(grades, x="Type", color="Type", nbins=40, barmode="overlay", opacity=0.7,
                             color_discrete_map=clr_map, labels={"score":"Score","type":"Type"}, title="Score Histogram — All Types Overlaid")
         fig3.update_layout(**DARK , legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
         fig3.update_yaxes(tickfont_color="black", title_font_color="black")
@@ -652,7 +655,7 @@ with t_questions:
         fig = px.scatter(df4, x="att_rate", y="avg_grade", color="course_name", trendline="ols", opacity=0.6,
                          color_discrete_sequence=COLORS, labels={"att_rate":"Attendance (%)","avg_grade":"Avg Grade","course_name":"Course"},
                          title="Attendance Rate vs Average Grade (OLS trend)")
-        fig.update_layout(**DARK)
+        fig.update_layout(**DARK,legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
         fig.update_yaxes(tickfont_color="black", title_font_color="black")
         fig.update_xaxes(tickfont_color="black", title_font_color="black")
         st.plotly_chart(fig, use_container_width=True)
@@ -673,6 +676,8 @@ with t_questions:
     # Q5
     with q_tabs[4]:
         st.subheader("Q5 · Engagement vs Academic Performance")
+        engagement_labels = {"login": "Login","video_watch": "Video Watch","resource_download": "Resource Download","quiz_attempt": "Quiz Attempt", "forum_post": "Forum Post"}
+        engagement["Event"] = engagement["event_type"].map(engagement_labels)
         logins = engagement[engagement["event_type"]=="login"].groupby("student_id").size().reset_index(name="logins")
         video  = engagement[engagement["event_type"]=="video_watch"].groupby("student_id")["duration_seconds"].sum().reset_index(name="video_sec")
         video["video_hrs"] = video["video_sec"]/3600
@@ -690,7 +695,7 @@ with t_questions:
             fig = px.scatter(df5, x="logins", y="avg_grade", color="course_name", trendline="ols", opacity=0.6,
                              color_discrete_sequence=COLORS, labels={"logins":"Login Count","avg_grade":"Avg Grade","course_name":"Course"},
                              title="Login Frequency vs Avg Grade")
-            fig.update_layout(**DARK)
+            fig.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
             fig.update_yaxes(tickfont_color="black", title_font_color="black")
             fig.update_xaxes(tickfont_color="black", title_font_color="black")
             st.plotly_chart(fig, use_container_width=True)
@@ -699,10 +704,10 @@ with t_questions:
             fig2 = px.scatter(df5, x="video_hrs", y="avg_grade", color="course_name", trendline="ols", opacity=0.6,
                               color_discrete_sequence=COLORS, labels={"video_hrs":"Video (hrs)","avg_grade":"Avg Grade","course_name":"Course"},
                               title="Video Watch Time vs Avg Grade")
-            fig2.update_layout(**DARK)
+            fig2.update_layout(**DARK, legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
             st.plotly_chart(fig2, use_container_width=True)
-        eng_counts = engagement.groupby("event_type").size().reset_index(name="count")
-        fig3 = px.pie(eng_counts, values="count", names="event_type", color_discrete_sequence=COLORS, hole=0.45,
+        eng_counts = engagement.groupby("Event").size().reset_index(name="count")
+        fig3 = px.pie(eng_counts, values="count", names="Event", color_discrete_sequence=COLORS, hole=0.45,
                       title="Platform Event Type Breakdown")
         fig3.update_layout(**DARK , legend_title_font=dict(color="black", size=14),legend=dict(font=dict(color="black")))
         fig3.update_yaxes(tickfont_color="black", title_font_color="black")
